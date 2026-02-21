@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Identification Sécurisée - SereniT</title>
+    <link rel="stylesheet" href="styleeee.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>Identification Sécurisée</h1>
+            <p>Pour accéder à SereniT, merci de vous identifier. Vos informations restent sécurisées et anonymes.</p>
+        </header>
+
+        <!-- Formulaire d'identification -->
+        <div class="form-container">
+            <form id="identificationForm" action="#" method="POST">
+                <!-- Nom de l'utilisateur -->
+                <label for="name">Nom (visible uniquement pour vous)</label>
+                <input type="text" id="name" name="name" required placeholder="Entrez votre nom" />
+
+                <!-- Classe de l'utilisateur -->
+                <label for="class">Classe</label>
+                <select id="class" name="class" required>
+                    <option value="">Sélectionner une classe</option>
+                    <option value="7e">7ème</option>
+                    <option value="8e">8ème</option>
+                    <option value="9e">9ème</option>
+                    <option value="S1">S1</option>
+                    <option value="S2">S2</option>
+                    <option value="S3">S3</option>
+                    <option value="S4">S4</option>
+                </select>
+
+                <!-- Choisir anonymat -->
+                <div class="anonymous-section">
+                    <label>Souhaitez-vous rester anonyme ?</label><br>
+                    <input type="radio" id="anonymousYes" name="anonymous" value="yes" onclick="togglePseudonymInput(true)" />
+                    <label for="anonymousYes">Oui</label><br>
+                    <input type="radio" id="anonymousNo" name="anonymous" value="no" onclick="togglePseudonymInput(false)" />
+                    <label for="anonymousNo">Non</label>
+                </div>
+
+                <!-- Section pour pseudonyme (si l'utilisateur veut rester anonyme) -->
+                <div class="pseudonym-section" id="pseudonym-section">
+                    <label for="pseudonym">Pseudonyme (si vous souhaitez rester anonyme)</label>
+                    <input type="text" id="pseudonym" name="pseudonym" placeholder="Choisissez un pseudonyme" />
+                </div>
+
+                <!-- Section des pseudonymes générés (si l'utilisateur choisit de ne pas être anonyme) -->
+                <div class="generated-pseudonyms" id="generated-pseudonyms">
+                    <p>Choisissez un pseudonyme parmi ceux-ci :</p>
+                    <select id="generatedPseudonym" name="generatedPseudonym">
+                        <!-- Pseudonymes générés seront ajoutés ici -->
+                    </select>
+                </div>
+
+                <!-- Soumettre -->
+                <button type="submit" value="Envoyer">Valider</button>
+
+            </form>
+        </div>
+
+        <!-- Pied de page -->
+        <footer>
+            © 2025 SereniT - Tous droits réservés.
+        </footer>
+
+    </div>
+
+        <script src="scriptt.js"></script>
+
+</body>
+
+</html>

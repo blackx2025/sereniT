@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Forum Communautaire - SereniT</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- En-tête du forum -->
+        <header>
+            <h1>✨ Forum Communautaire SereniT ✨</h1>
+            <p>Un espace sûr pour partager, s'exprimer et s'entraider entre filles.</p>
+        </header>
+
+        <!-- Liste des discussions -->
+        <main id="forum" class="forum">
+            <!-- Les discussions seront ajoutées ici dynamiquement -->
+        </main>
+
+        <!-- Formulaire pour créer une discussion (pseudonyme pris automatiquement) -->
+        <section class="new-discussion">
+            <h2>🌸 Créer une discussion</h2>
+            <form id="forum-form">
+                <input type="text" id="title" placeholder="Titre de la discussion" required>
+                <textarea id="content" rows="3" placeholder="Exprime ce que tu ressens..." required></textarea>
+                <button type="submit">💖 Publier</button>
+            </form>
+        </section>
+
+        <!-- Pied de page -->
+        <footer>
+            <p>© 2025 SereniT - Avec amour et bienveillance 🦋</p>
+        </footer>
+    </div>
+
+    <script>
+        // Vérifie si l'utilisateur est connecté (via localStorage)
+        const username = localStorage.getItem("serenitUsername");
+
+        if (!username) {
+            alert("Tu dois t’identifier pour accéder au forum.");
+            window.location.href = "identification.html"; // Redirection si non connecté
+        }
+    </script>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

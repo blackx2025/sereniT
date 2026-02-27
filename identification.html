@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identification Sécurisée - SereniT</title>
+
+    <style>
+        /* Styles généraux */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Georgia', serif;
+            background: linear-gradient(to bottom, #f8d7e5, #fdf7fa);
+            color: #5a3e5f;
+            line-height: 1.8;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+            color: #8e488e;
+        }
+
+        p {
+            font-size: 1.3rem;
+        }
+
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+            transition: transform 0.3s ease;
+        }
+
+        .form-container:hover {
+            transform: translateY(-10px);
+        }
+
+        .form-container input,
+        .form-container select {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 30px;
+            border: 1px solid #e77fa3;
+            font-size: 1rem;
+            color: #5a3e5f;
+        }
+
+        .form-container button {
+            padding: 15px 40px;
+            background: #e77fa3;
+            color: #fff;
+            border-radius: 30px;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .form-container button:hover {
+            background: #d46489;
+            transform: scale(1.05);
+        }
+
+        .anonymous-section {
+            margin-top: 20px;
+        }
+
+        .pseudonym-section,
+        .generated-pseudonyms {
+            display: none;
+            margin-top: 20px;
+        }
+
+        footer {
+            margin-top: 50px;
+            font-size: 1rem;
+            color: #8e488e;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            h1 {
+                font-size: 3rem;
+            }
+
+            p {
+                font-size: 1.2rem;
+            }
+
+            .form-container {
+                padding: 30px;
+                max-width: 90%;
+            }
+
+            .form-container button {
+                padding: 12px 30px;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            p {
+                font-size: 1.1rem;
+            }
+
+            .form-container {
+                padding: 25px;
+                max-width: 95%;
+            }
+
+            .form-container input,
+            .form-container select {
+                padding: 12px;
+                font-size: 0.95rem;
+            }
+
+            .form-container button {
+                padding: 10px 25px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .form-container {
+                padding: 20px;
+                border-radius: 15px;
+            }
+
+            .form-container input,
+            .form-container select {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+
+            .form-container button {
+                padding: 8px 20px;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>Identification Sécurisée</h1>
+            <p>Pour accéder à SereniT, merci de vous identifier. Vos informations restent sécurisées et anonymes.</p>
+        </header>
+
+        <!-- Formulaire d'identification -->
+        <div class="form-container">
+            <form id="identificationForm" action="#" method="POST">
+                <!-- Nom de l'utilisateur -->
+                <label for="name">Nom (visible uniquement pour vous)</label>
+                <input type="text" id="name" name="name" required placeholder="Entrez votre nom" />
+
+                <!-- Classe de l'utilisateur -->
+                <label for="class">Classe</label>
+                <select id="class" name="class" required>
+                    <option value="">Sélectionner une classe</option>
+                    <option value="7e">7ème</option>
+                    <option value="8e">8ème</option>
+                    <option value="9e">9ème</option>
+                    <option value="S1">S1</option>
+                    <option value="S2">S2</option>
+                    <option value="S3">S3</option>
+                    <option value="S4">S4</option>
+                </select>
+
+                <!-- Choisir anonymat -->
+                <div class="anonymous-section">
+                    <label>Souhaitez-vous rester anonyme ?</label><br>
+                    <input type="radio" id="anonymousYes" name="anonymous" value="yes" onclick="togglePseudonymInput(true)" />
+                    <label for="anonymousYes">Oui</label><br>
+                    <input type="radio" id="anonymousNo" name="anonymous" value="no" onclick="togglePseudonymInput(false)" />
+                    <label for="anonymousNo">Non</label>
+                </div>
+
+                <!-- Section pour pseudonyme (si l'utilisateur veut rester anonyme) -->
+                <div class="pseudonym-section" id="pseudonym-section">
+                    <label for="pseudonym">Pseudonyme (si vous souhaitez rester anonyme)</label>
+                    <input type="text" id="pseudonym" name="pseudonym" placeholder="Choisissez un pseudonyme" />
+                </div>
+
+                <!-- Section des pseudonymes générés (si l'utilisateur choisit de ne pas être anonyme) -->
+                <div class="generated-pseudonyms" id="generated-pseudonyms">
+                    <p>Choisissez un pseudonyme parmi ceux-ci :</p>
+                    <select id="generatedPseudonym" name="generatedPseudonym">
+                        <!-- Pseudonymes générés seront ajoutés ici -->
+                    </select>
+                </div>
+
+                <!-- Soumettre -->
+                <button type="submit" value="Envoyer">Valider</button>
+
+            </form>
+        </div>
+
+        <!-- Pied de page -->
+        <footer>
+            © 2025 SereniT - Tous droits réservés.
+        </footer>
+
+    </div>
+
+    <script src="scriptt.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Évaluateur de stress - SereniT</title>
+<style>
+body {
+  font-family: 'Georgia', serif;
+  background: linear-gradient(to bottom, #f8d7e5, #fdf7fa);
+  color: #5a3e5f;
+  padding: 30px;
+  max-width: 900px;
+  margin: auto;
+}
+h1 { color: #8e488e; text-align: center; }
+form {
+  background: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  margin-top: 20px;
+}
+.question { margin-bottom: 20px; }
+label { display: block; margin-bottom: 10px; font-weight: bold; }
+.options { margin-left: 20px; }
+textarea, input[type="text"] {
+  width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #ccc; margin-top: 10px;
+}
+button {
+  margin-top: 20px;
+  background: #8e488e; color: #fff;
+  padding: 10px 20px;
+  border: none; border-radius: 10px; cursor: pointer;
+}
+#resultat { margin-top: 30px; font-weight: bold; font-size: 1.2rem; text-align: center; }
+.hidden { display: none; }
+</style>
+</head>
+<body>
+<h1>Évaluateur de stress</h1>
+<div id="content"></div>
+
+<script>
+const content = document.getElementById("content");
+let alreadySubmitted = false;
+
+// Questions réalistes
+const questions = [
+  "Je me sens souvent tendu(e) ou nerveux(se).",
+  "J'ai du mal à me concentrer sur mes tâches quotidiennes.",
+  "Je dors mal à cause du stress.",
+  "Je ressens souvent des douleurs physiques liées au stress (maux de tête, tensions, etc.).",
+  "Je me sens dépassé(e) par mes responsabilités.",
+  "Je m’inquiète facilement pour de petites choses.",
+  "Je prends peu de temps pour moi chaque jour.",
+  "Je ressens de l’irritabilité ou de la colère facilement.",
+  "Je procrastine à cause du stress ou de l’anxiété.",
+  "Je me sens souvent épuisé(e) émotionnellement ou mentalement."
+];
+
+function createForm() {
+  const form = document.createElement("form");
+  form.id = "stressForm";
+
+  questions.forEach((q, index) => {
+    const i = index + 1;
+    const questionDiv = document.createElement("div");
+    questionDiv.className = "question";
+    questionDiv.innerHTML = `
+      <label>Question ${i}: ${q}</label>
+      <div class="options">
+        <label><input type="radio" name="q${i}" value="1" required> Jamais</label><br>
+        <label><input type="radio" name="q${i}" value="2"> Parfois</label><br>
+        <label><input type="radio" name="q${i}" value="3"> Souvent</label><br>
+        <label><input type="radio" name="q${i}" value="4"> Très souvent</label><br>
+      </div>
+      <div>
+        <label>Souhaites-tu répondre avec tes propres mots ? (facultatif)</label>
+        <textarea name="text${i}" rows="2" placeholder="Exprime-toi ici si tu le souhaites..."></textarea>
+      </div>
+    `;
+    form.appendChild(questionDiv);
+  });
+
+  // Option journal
+  const journeeDiv = document.createElement("div");
+  journeeDiv.innerHTML = `
+    <label>Souhaites-tu raconter ta journée ?</label>
+    <button type="button" onclick="montrerJournal(true)">Oui</button>
+    <button type="button" onclick="montrerJournal(false)">Non</button>
+    <div id="zoneJournal" class="hidden">
+      <textarea name="journal" rows="4" placeholder="Raconte ta journée ici..."></textarea>
+    </div>
+  `;
+  form.appendChild(journeeDiv);
+
+  const submitBtn = document.createElement("button");
+  submitBtn.type = "submit";
+  submitBtn.textContent = "Évaluer mon stress";
+  form.appendChild(submitBtn);
+
+  content.innerHTML = "";
+  content.appendChild(form);
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    if (alreadySubmitted) {
+      const confirmRepeat = confirm("Tu as déjà rempli cet évaluateur. Veux-tu vraiment le refaire ?");
+      if (!confirmRepeat) return;
+    }
+    alreadySubmitted = true;
+
+    let score = 0;
+    for (let i = 1; i <= questions.length; i++) {
+      const val = form.querySelector(`input[name="q${i}"]:checked`);
+      if (val) score += parseInt(val.value);
+    }
+
+    let message = "";
+    let conseil = "";
+    if (score <= 15) {
+      message = "Ton niveau de stress semble faible. 🌿";
+      conseil = "Continue à prendre soin de toi et à maintenir tes habitudes positives.";
+    } else if (score <= 25) {
+      message = "Ton stress est modéré. 💡";
+      conseil = "Essaie de prendre un peu plus de pauses, respire profondément et organise tes priorités.";
+    } else {
+      message = "Ton niveau de stress est élevé. 💬";
+      conseil = "Il serait bénéfique de parler à quelqu’un de confiance ou à un psychologue.";
+    }
+
+    afficherPostEvaluation(message, conseil);
+  });
+}
+
+function montrerJournal(oui) {
+  document.getElementById("zoneJournal").classList.toggle("hidden", !oui);
+}
+
+function afficherPostEvaluation(message, conseil) {
+  content.innerHTML = `
+    <div id="resultat">${message}<br>${conseil}</div>
+    <p>Souhaites-tu prendre rendez-vous avec un psychologue ?</p>
+    <button onclick="redirigerPsychologue(true)">Oui</button>
+    <button onclick="redirigerPsychologue(false)">Non</button>
+    <div id="messageRecomfort"></div>
+  `;
+}
+
+function redirigerPsychologue(choix) {
+  if (choix) {
+    window.location.href = "rendezvous.html";
+  } else {
+    proposerMessageRecomfort();
+  }
+}
+
+function proposerMessageRecomfort() {
+  const zone = document.getElementById("messageRecomfort");
+  const dernierMessage = localStorage.getItem("dernierMessage");
+  const maintenant = new Date().getTime();
+
+  if (dernierMessage && maintenant - dernierMessage < 24*60*60*1000) {
+    zone.innerHTML = "<p>Tu as déjà reçu un message réconfortant dans les dernières 24h. 💛</p>";
+    // Toujours proposer l'accès au forum
+    demanderAccesForum();
+    return;
+  }
+
+  zone.innerHTML = `
+    <p>Veux-tu recevoir un message réconfortant maintenant ? 💌</p>
+    <button onclick="envoyerMessageRecomfort()">Oui</button>
+    <button onclick="refuserMessageRecomfort()">Non</button>
+  `;
+}
+
+function envoyerMessageRecomfort() {
+  const messages = [
+    "🌸 Respire profondément et rappelle-toi que tu es fort(e) aujourd'hui.",
+    "🌿 Prends un moment pour toi et écoute ce dont ton corps a besoin.",
+    "💛 Tu fais de ton mieux et c'est déjà incroyable.",
+    "☀️ Même dans les moments difficiles, une petite pause peut tout changer.",
+    "💌 N’oublie pas de sourire, même un tout petit sourire compte."
+  ];
+  const msg = messages[Math.floor(Math.random()*messages.length)];
+  alert(msg);
+  localStorage.setItem("dernierMessage", new Date().getTime());
+  demanderAccesForum();
+}
+
+function refuserMessageRecomfort() {
+  demanderAccesForum();
+}
+
+function demanderAccesForum() {
+  const zone = document.getElementById("messageRecomfort");
+  zone.innerHTML = `
+    <p>Souhaites-tu accéder au forum pour partager ou discuter ?</p>
+    <button onclick="redirigerForum(true)">Oui</button>
+    <button onclick="redirigerForum(false)">Non</button>
+  `;
+}
+
+function redirigerForum(choix) {
+  if (choix) {
+    window.location.href = "forum.html";
+  } else {
+    createForm();
+  }
+}
+
+// Initialisation
+createForm();
+</script>
+</body>
+</html>

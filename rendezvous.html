@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prise de Rendez-vous - SereniT</title>
+    <style>
+        /* Styles généraux */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Georgia', serif;
+            background: linear-gradient(to bottom, #f8d7e5, #fdf7fa);
+            color: #5a3e5f;
+            line-height: 1.8;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+            color: #8e488e;
+        }
+
+        p {
+            font-size: 1.2rem;
+        }
+
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .form-container input,
+        .form-container select {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 30px;
+            border: 1px solid #e77fa3;
+            font-size: 1rem;
+            color: #5a3e5f;
+        }
+
+        .form-container button {
+            padding: 15px 40px;
+            background: #e77fa3;
+            color: #fff;
+            border-radius: 30px;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .form-container button:hover {
+            background: #d46489;
+            transform: scale(1.05);
+        }
+
+        footer {
+            margin-top: 50px;
+            font-size: 1rem;
+            color: #8e488e;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            p {
+                font-size: 1.1rem;
+            }
+
+            .form-container {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🌸 Prendre Rendez-vous - SereniT 🌸</h1>
+            <p>Choisis la date et l’heure qui te conviennent pour parler à un(e) psychologue.</p>
+        </header>
+
+        <div class="form-container">
+            <form id="rendezvousForm">
+                <!-- Nom (prérempli avec localStorage) -->
+                <label for="name">Nom :</label>
+                <input type="text" id="name" name="name" readonly />
+
+                <!-- Pseudonyme (prérempli avec localStorage) -->
+                <label for="pseudonym">Pseudonyme :</label>
+                <input type="text" id="pseudonym" name="pseudonym" readonly />
+
+                <!-- Date -->
+                <label for="date">Choisis une date :</label>
+                <input type="date" id="date" name="date" required min="<?php echo date('Y-m-d'); ?>">
+
+                <!-- Créneau horaire -->
+                <label for="time">Sélectionne un créneau :</label>
+                <select id="time" name="time" required>
+                    <option value="">Choisir un créneau</option>
+                    <option value="09:00">09:00 - 10:00</option>
+                    <option value="10:00">10:00 - 11:00</option>
+                    <option value="11:00">11:00 - 12:00</option>
+                    <option value="14:00">14:00 - 15:00</option>
+                    <option value="15:00">15:00 - 16:00</option>
+                    <option value="16:00">16:00 - 17:00</option>
+                </select>
+
+                <button type="submit">📅 Valider le rendez-vous</button>
+            </form>
+        </div>
+
+        <footer>
+            © 2025 SereniT - Avec amour et bienveillance 🦋
+        </footer>
+    </div>
+
+    <script>
+        
+
+        // Gestion du formulaire
+        document.getElementById('rendezvousForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+
+            if (!date || !time) {
+                alert("Veuillez choisir une date et un créneau.");
+                return;
+            }
+
+            // Stocker rendez-vous dans localStorage (peut être remplacé par un serveur)
+            localStorage.setItem('rendezvous', JSON.stringify({ date, time }));
+
+            alert(`Rendez-vous confirmé pour le ${date} à ${time} 🌸`);
+            this.reset();
+
+            // Optionnel : redirection vers le forum ou page d'accueil
+            // window.location.href = 'forum.html';
+        });
+    </script>
+</body>
+
+</html>

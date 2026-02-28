@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum Communautaire - SereniT</title>
+
+    <style>
+        /* Styles généraux */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Georgia', serif;
+            background: linear-gradient(to bottom, #f8d7e5, #fdf7fa);
+            color: #5a3e5f;
+            line-height: 1.8;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+            color: #8e488e;
+        }
+
+        p {
+            font-size: 1.3rem;
+        }
+
+        /* Logo avec cercle et animation */
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 40px;
+            border: 3px solid #e77fa3;
+            border-radius: 50%;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(231, 127, 163, 0.3);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .logo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        /* Étoiles décoratives */
+        .star {
+            position: absolute;
+            font-size: 2rem;
+            color: #f06292;
+            animation: flutter 6s ease-in-out infinite;
+        }
+
+        .star-1 {
+            top: -40px;
+            left: -20px;
+            animation-delay: 0.5s;
+        }
+
+        .star-2 {
+            top: 20px;
+            right: -50px;
+            animation-delay: 1s;
+        }
+
+        .star-3 {
+            bottom: -40px;
+            left: 40px;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes flutter {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(10deg);
+            }
+
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+        }
+
+        /* Boutons */
+        .btn,
+        .new-discussion button {
+            display: inline-block;
+            padding: 15px 40px;
+            margin: 20px 10px;
+            text-decoration: none;
+            color: #fff;
+            background: #e77fa3;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            transition: background 0.3s, transform 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover,
+        .new-discussion button:hover {
+            background: #d46489;
+            transform: scale(1.05);
+        }
+
+        /* Cartes de fonctionnalités */
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            max-width: 350px;
+            transition: transform 0.3s;
+        }
+
+        .feature:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Formulaire de nouvelle discussion */
+        .new-discussion {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 40px auto;
+            text-align: left;
+        }
+
+        .new-discussion h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #8e488e;
+        }
+
+        .new-discussion input,
+        .new-discussion textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            border: 1px solid #e77fa3;
+            font-size: 1rem;
+            color: #5a3e5f;
+        }
+
+        /* Pied de page */
+        footer {
+            margin-top: 50px;
+            font-size: 1rem;
+            color: #8e488e;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            h1 {
+                font-size: 3rem;
+            }
+
+            p {
+                font-size: 1.2rem;
+            }
+
+            .new-discussion {
+                padding: 25px;
+                max-width: 90%;
+            }
+
+            .new-discussion input,
+            .new-discussion textarea {
+                padding: 12px;
+                font-size: 0.95rem;
+            }
+
+            .btn,
+            .new-discussion button {
+                padding: 12px 30px;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            p {
+                font-size: 1.1rem;
+            }
+
+            .new-discussion {
+                padding: 20px;
+                max-width: 95%;
+            }
+
+            .new-discussion input,
+            .new-discussion textarea {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+
+            .btn,
+            .new-discussion button {
+                padding: 10px 25px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .new-discussion {
+                padding: 15px;
+                border-radius: 15px;
+            }
+
+            .new-discussion input,
+            .new-discussion textarea {
+                padding: 8px;
+                font-size: 0.85rem;
+            }
+
+            .btn,
+            .new-discussion button {
+                padding: 8px 20px;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- En-tête -->
+        <header>
+            <h1>Forum Communautaire SereniT</h1>
+            <p>Un espace pour partager vos expériences et poser des questions sur la gestion des émotions.</p>
+        </header>
+
+        <!-- Formulaire pour créer une nouvelle discussion -->
+        <div class="new-discussion">
+            <h3>Créer une nouvelle discussion</h3>
+            <form id="forum-form">
+                <input type="text" id="title" placeholder="Titre de la discussion" required />
+                <textarea id="content" placeholder="Écrivez votre message ici..." rows="4" required></textarea>
+                <button type="submit">Publier</button>
+            </form>
+        </div>
+
+        <!-- Discussions existantes -->
+        <div class="forum" id="forum">
+            <!-- Exemple de discussion -->
+            <div class="discussion">
+                <h3>Comment gérer le stress avant un examen ?</h3>
+                <p>J'ai du mal à gérer mon stress avant mes examens, avez-vous des conseils ?</p>
+                <div class="actions">
+                    <button onclick="likePost(this)">👍 J'aime</button>
+                    <button onclick="dislikePost(this)">👎 Je n'aime pas</button>
+                    <button onclick="favoritePost(this)">⭐ Mettre en favoris</button>
+                </div>
+                <div class="reponse">
+                    <p>Il existe plusieurs techniques pour gérer le stress, comme la respiration profonde et les pauses régulières pendant les révisions.</p>
+                    <div class="actions">
+                        <button onclick="likePost(this)">👍 J'aime</button>
+                        <button onclick="dislikePost(this)">👎 Je n'aime pas</button>
+                        <button onclick="favoritePost(this)">⭐ Mettre en favoris</button>
+                    </div>
+                </div>
+            </div>
+            <div class="discussion">
+                <h3>Que faire lorsque l'on se sent dépassé par les émotions ?</h3>
+                <p>J'ai du mal à contrôler mes émotions et ça devient difficile au quotidien.</p>
+                <div class="actions">
+                    <button onclick="likePost(this)">👍 J'aime</button>
+                    <button onclick="dislikePost(this)">👎 Je n'aime pas</button>
+                    <button onclick="favoritePost(this)">⭐ Mettre en favoris</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pied de page -->
+        <footer>
+            © 2025 SereniT - Tous droits réservés.
+        </footer>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

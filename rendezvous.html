@@ -2,208 +2,165 @@
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prise de Rendez-vous - SereniT</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Georgia', serif;
-            background: linear-gradient(to bottom, #f8d7e5, #fdf7fa);
-            color: #5a3e5f;
-            line-height: 1.8;
-            text-align: center;
-            overflow-x: hidden;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prise de Rendez-vous - SereniT</title>
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+<!-- Flatpickr CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
-        header {
-            padding: 40px 20px;
-        }
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Georgia', serif;
+        background: linear-gradient(to bottom, #f8d7e5, #fdf7fa);
+        color: #5a3e5f;
+        text-align: center;
+    }
 
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            font-family: 'Playfair Display', serif;
-            color: #8e488e;
-        }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
 
-        p {
-            font-size: 1.2rem;
-        }
+    header {
+        padding: 40px 20px;
+    }
 
-        .form-container {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            margin-top: 30px;
-        }
+    h1 {
+        font-size: 3rem;
+        margin-bottom: 10px;
+        font-family: 'Playfair Display', serif;
+        color: #8e488e;
+    }
 
-        .form-container input,
-        .form-container select {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 30px;
-            border: 1px solid #e77fa3;
-            font-size: 1rem;
-            color: #5a3e5f;
-        }
+    p {
+        font-size: 1.2rem;
+    }
 
-        .form-container button {
-            padding: 15px 40px;
-            background: #e77fa3;
-            color: #fff;
-            border-radius: 30px;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
-        }
+    .form-container {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        margin-top: 30px;
+    }
 
-        .form-container button:hover {
-            background: #d46489;
-            transform: scale(1.05);
-        }
+    .form-container input,
+    .form-container select {
+        width: 100%;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 30px;
+        border: 1px solid #e77fa3;
+        font-size: 1rem;
+        color: #5a3e5f;
+    }
 
-        footer {
-            margin-top: 50px;
-            font-size: 1rem;
-            color: #8e488e;
-        }
+    .form-container button {
+        padding: 15px 40px;
+        background: #e77fa3;
+        color: #fff;
+        border-radius: 30px;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s;
+    }
 
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
+    .form-container button:hover {
+        background: #d46489;
+        transform: scale(1.05);
+    }
 
-            p {
-                font-size: 1.1rem;
-            }
-        }
+    footer {
+        margin-top: 50px;
+        font-size: 1rem;
+        color: #8e488e;
+    }
 
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2rem;
-            }
+    @media (max-width: 768px) {
+        h1 { font-size: 2.5rem; }
+        p { font-size: 1.1rem; }
+    }
 
-            p {
-                font-size: 1rem;
-            }
-        }
-    </style>
+    @media (max-width: 480px) {
+        h1 { font-size: 2rem; }
+        p { font-size: 1rem; }
+    }
+</style>
 </head>
 
 <body>
-    <div class="container">
-        <header>
-            <h1>🌸 Prendre Rendez-vous - SereniT 🌸</h1>
-            <p>Choisis la date et l’heure qui te conviennent pour parler à un(e) psychologue.</p>
-        </header>
+<div class="container">
+    <header>
+        <h1>🌸 Prendre Rendez-vous - SereniT 🌸</h1>
+        <p>Choisis la date et l’heure qui te conviennent pour parler à un(e) psychologue.</p>
+    </header>
 
-        <div class="form-container">
-            <form id="rendezvousForm">
-                <!-- Nom libre pour le rendez-vous -->
-                <label for="chosenName">Nom à utiliser pour le rendez-vous :</label>
-                <input type="text" id="chosenName" name="chosenName" placeholder="Tape ton nom ou pseudonyme" required />
+    <div class="form-container">
+        <form id="rendezvousForm">
+            <!-- Nom libre -->
+            <label for="chosenName">Nom à utiliser pour le rendez-vous :</label>
+            <input type="text" id="chosenName" placeholder="Tape ton nom ou pseudonyme" required>
 
-                <!-- Date avec jour/mois/année -->
-                <label>Date du rendez-vous :</label>
-                <div style="display:flex; justify-content:space-between;">
-                    <select id="day" required></select>
-                    <select id="month" required></select>
-                    <select id="year" required></select>
-                </div>
+            <!-- Datepicker -->
+            <label for="date">Choisis une date :</label>
+            <input type="text" id="date" placeholder="Clique pour choisir la date" required>
 
-                <!-- Créneau horaire -->
-                <label for="time">Sélectionne un créneau :</label>
-                <select id="time" name="time" required>
-                    <option value="">Choisir un créneau</option>
-                    <option value="09:00">09:00 - 10:00</option>
-                    <option value="10:00">10:00 - 11:00</option>
-                    <option value="11:00">11:00 - 12:00</option>
-                    <option value="14:00">14:00 - 15:00</option>
-                    <option value="15:00">15:00 - 16:00</option>
-                    <option value="16:00">16:00 - 17:00</option>
-                </select>
+            <!-- Créneau horaire -->
+            <label for="time">Sélectionne un créneau :</label>
+            <select id="time" required>
+                <option value="">Choisir un créneau</option>
+                <option value="09:00">09:00 - 10:00</option>
+                <option value="10:00">10:00 - 11:00</option>
+                <option value="11:00">11:00 - 12:00</option>
+                <option value="14:00">14:00 - 15:00</option>
+                <option value="15:00">15:00 - 16:00</option>
+                <option value="16:00">16:00 - 17:00</option>
+            </select>
 
-                <button type="submit">📅 Valider le rendez-vous</button>
-            </form>
-        </div>
-
-        <footer>
-            © 2025 SereniT - Avec amour et bienveillance 🦋
-        </footer>
+            <button type="submit">📅 Valider le rendez-vous</button>
+        </form>
     </div>
 
-    <script>
-        // Pré-remplir le champ nom avec localStorage si disponible
-        const savedName = localStorage.getItem('name') || localStorage.getItem('username') || '';
-        const chosenInput = document.getElementById('chosenName');
-        if (savedName) {
-            chosenInput.value = savedName;
+    <footer>© 2025 SereniT - Avec amour et bienveillance 🦋</footer>
+</div>
+
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    // Pré-remplir le nom si disponible
+    const savedName = localStorage.getItem('name') || localStorage.getItem('username') || '';
+    const chosenInput = document.getElementById('chosenName');
+    if (savedName) chosenInput.value = savedName;
+
+    // Initialiser Flatpickr
+    flatpickr("#date", {
+        dateFormat: "Y-m-d",
+        minDate: "today", // empêche les dates passées
+    });
+
+    // Gestion du formulaire
+    document.getElementById('rendezvousForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const chosenName = chosenInput.value.trim();
+        const date = document.getElementById('date').value;
+        const time = document.getElementById('time').value;
+
+        if (!chosenName || !date || !time) {
+            alert("Veuillez remplir tous les champs.");
+            return;
         }
 
-        // Remplir jour/mois/année
-        const day = document.getElementById('day');
-        const month = document.getElementById('month');
-        const year = document.getElementById('year');
-
-        for (let i = 1; i <= 31; i++) {
-            const opt = document.createElement('option');
-            opt.value = i.toString().padStart(2, '0');
-            opt.textContent = i;
-            day.appendChild(opt);
-        }
-
-        for (let i = 1; i <= 12; i++) {
-            const opt = document.createElement('option');
-            opt.value = i.toString().padStart(2, '0');
-            opt.textContent = i;
-            month.appendChild(opt);
-        }
-
-        const currentYear = new Date().getFullYear();
-        for (let i = currentYear; i <= currentYear + 5; i++) {
-            const opt = document.createElement('option');
-            opt.value = i;
-            opt.textContent = i;
-            year.appendChild(opt);
-        }
-
-        // Gestion du formulaire
-        document.getElementById('rendezvousForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const chosenName = chosenInput.value.trim();
-            const selectedDay = day.value;
-            const selectedMonth = month.value;
-            const selectedYear = year.value;
-            const time = document.getElementById('time').value;
-
-            if (!chosenName || !selectedDay || !selectedMonth || !selectedYear || !time) {
-                alert("Veuillez remplir tous les champs.");
-                return;
-            }
-
-            const date = `${selectedYear}-${selectedMonth}-${selectedDay}`;
-
-            // Stocker rendez-vous dans localStorage
-            localStorage.setItem('rendezvous', JSON.stringify({ chosenName, date, time }));
-
-            alert(`Rendez-vous confirmé pour ${chosenName} le ${date} à ${time} 🌸`);
-
-            // Redirection vers la page d'accueil
-            window.location.href = 'index.html';
-        });
-    </script>
+        localStorage.setItem('rendezvous', JSON.stringify({chosenName, date, time}));
+        alert(`Rendez-vous confirmé pour ${chosenName} le ${date} à ${time} 🌸`);
+        
+        // Redirection vers la page d'accueil
+        window.location.href = 'siteee.html';
+    });
+</script>
 </body>
-
 </html>

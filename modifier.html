@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modifier Profil - SereniT</title>
+<style>
+body {
+  margin:0;
+  font-family: 'Georgia', serif;
+  min-height:100vh;
+  background: linear-gradient(135deg, #f8d7e5, #fdf7fa);
+  display:flex;
+  flex-direction: column;
+}
+.edit-card {
+  background: rgba(255,255,255,0.95);
+  border-radius:25px;
+  padding:30px;
+  width:90%;
+  max-width:400px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  margin: 40px auto 0 auto;
+}
+.profile-pic {
+  width:130px;
+  height:130px;
+  border-radius:50%;
+  border:3px solid #e77fa3;
+  object-fit:cover;
+  margin-bottom:10px;
+  transition:0.3s;
+}
+.profile-pic:hover {transform: scale(1.05);}
+button {
+  padding:10px 20px;
+  border-radius:25px;
+  border:none;
+  background:#e77fa3;
+  color:white;
+  cursor:pointer;
+  margin:10px 0;
+  width:90%;
+  font-size:1rem;
+}
+button:hover {background:#d46489;}
+#cancelBtn {background:#ccc;color:#333;}
+.username-display {
+  margin:10px 0;
+  font-weight:bold;
+  font-size:1.2rem;
+  color:#5a3e5f;
+  text-align:center;
+  width:90%;
+  padding:10px;
+  border-radius:12px;
+  border:1px solid #e77fa3;
+  background:#fff;
+  cursor:pointer;
+}
+.username-display.locked {
+  opacity:0.6;
+  cursor:not-allowed;
+}
+.username-info {font-size:0.8rem;color:#999;margin-bottom:10px;text-align:center;}
+textarea {
+  width:90%;
+  padding:12px;
+  margin:10px 0;
+  border-radius:12px;
+  border:1px solid #e77fa3;
+  font-size:1rem;
+  resize:none;
+}
+.message {margin-top:5px;height:18px;font-size:14px;text-align:center;color:green;}
+footer {
+  margin-top:auto;
+  font-size:1rem;
+  color:#8e488e;
+  padding:15px;
+  text-align:center;
+}
+</style>
+</head>
+<body>
+
+<div class="edit-card">
+  <img src="default-avatar.png" class="profile-pic" id="profilePic">
+  <button id="changePhotoBtn">Changer photo</button>
+
+  <div class="username-display" id="usernameDisplay" title="Clique pour modifier"></div>
+  <div class="username-info" id="usernameInfo"></div>
+
+  <textarea id="bioInput" placeholder="Écris ta bio ici..."></textarea>
+
+  <button id="saveBtn">Enregistrer</button>
+  <button id="cancelBtn">Annuler</button>
+  <div class="message" id="editMessage"></div>
+</div>
+
+<footer>© 2026 SereniT - Tous droits réservés.</footer>
+
+<script>
+let currentUser = localStorage.getItem("currentUser");
+let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+let user = accounts.find(u => u.username === currentUser);
+
+const profilePic = document.getElementById("profilePic");
+const usernameDisplay = document.getElementById("usernameDisplay");
+const usernameInfo = document.getElementById("usernameInfo");
+const bioInput = document.getElementById("bioInput");
+const changePhotoBtn = document.getElementById("changePhotoBtn");
+const saveBtn = document.getElementById("saveBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+const editMessage = document.getElementById("editMessage");
+
+// Affichage initial
+if(user){
+  profilePic.src = user.profilePic || "default-avatar.png";
+  usernameDisplay.textContent = user.username;
+  bioInput.value = user.bio || "";
+
+  const creationDate = new Date(user.creationDate || Date.now());
+  const now = new Date();
+  const diffMonths = (now.getFullYear()-creationDate.getFullYear())*12 + (now.getMonth()-creationDate.getMonth());
+
+  if(diffMonths < 1){
+    usernameDisplay.classList.add("locked");
+    usernameInfo.textContent = "Username verrouillé (1 mois après création)";
+  } else {
+    usernameDisplay.classList.remove("locked");
+    usernameInfo.textContent = "Clique pour modifier le username";
+    usernameDisplay.contentEditable = true;
+  }
+}
+
+// Modifier username
+usernameDisplay.onclick = () => {
+  const creationDate = new Date(user.creationDate || Date.now());
+  const now = new Date();
+  const diffMonths = (now.getFullYear()-creationDate.getFullYear())*12 + (now.getMonth()-creationDate.getMonth());
+  if(diffMonths < 1){
+    editMessage.style.color="red";
+    editMessage.textContent="Username verrouillé, vous devez attendre 1 mois";
+    setTimeout(()=>{editMessage.textContent="";},2500);
+  } else {
+    usernameDisplay.contentEditable = true;
+    usernameDisplay.focus();
+  }
+}
+
+// Changer photo
+changePhotoBtn.onclick = () => {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/*";
+  input.onchange = function(){
+    const file = this.files[0];
+    if(file){
+      const reader = new FileReader();
+      reader.onload = function(e){
+        profilePic.src = e.target.result;
+        user.profilePic = e.target.result;
+      }
+      reader.readAsDataURL(file);
+    }
+  }
+  input.click();
+}
+
+// Enregistrer
+saveBtn.onclick = () => {
+  if(user){
+    // Username modifiable seulement si >1 mois
+    const creationDate = new Date(user.creationDate || Date.now());
+    const now = new Date();
+    const diffMonths = (now.getFullYear()-creationDate.getFullYear())*12 + (now.getMonth()-creationDate.getMonth());
+
+    if(diffMonths >= 1){
+      user.username = usernameDisplay.textContent.trim() || user.username;
+      localStorage.setItem("currentUser", user.username);
+    }
+
+    user.bio = bioInput.value.trim();
+    localStorage.setItem("accounts", JSON.stringify(accounts));
+
+    // Mettre à jour photo flottante site
+    localStorage.setItem("profilePicForSite", user.profilePic || "default-avatar.png");
+
+    // Redirection vers site principal
+    window.location.href = "siteee.html";
+  }
+}
+
+// Annuler
+cancelBtn.onclick = () => { window.location.href="siteee.html"; }
+</script>
+
+</body>
+</html>

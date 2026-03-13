@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SereniT - Connexion</title>
+
+<style>
+body {
+  margin:0;
+  font-family: Georgia, serif;
+  overflow:hidden;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background: linear-gradient(135deg, #f8d7e5, #fdf7fa, #fce4f0);
+  animation: backgroundShift 20s ease infinite;
+}
+
+@keyframes backgroundShift {
+  0% {background-position:0% 50%;}
+  50% {background-position:100% 50%;}
+  100% {background-position:0% 50%;}
+}
+
+.form-container {
+  background: rgba(255,255,255,0.85);
+  padding:40px 30px;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  width:90%;
+  max-width:400px;
+  z-index:2;
+}
+
+.form-container h2 {
+  color:#5a3e5f;
+  margin-bottom:25px;
+}
+
+.form-container input {
+  width:100%;
+  padding:12px 15px;
+  margin:10px 0;
+  border-radius:12px;
+  border:1px solid #e77fa3;
+  font-size:16px;
+}
+
+.form-container input:focus {
+  outline:none;
+  border-color:#d46489;
+  box-shadow:0 0 8px rgba(231,127,163,0.5);
+}
+
+.form-container button {
+  margin-top:15px;
+  padding:12px 20px;
+  border:none;
+  border-radius:20px;
+  background:#e77fa3;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.3s;
+}
+.form-container button:hover {
+  background:#d46489;
+  transform:scale(1.05);
+}
+
+/* MESSAGE D'ERREUR / SUCCES */
+.message {
+  margin-top:12px;
+  font-size:14px;
+  color:red;
+  height:18px; /* garde l’espace même si vide */
+  text-align:center;
+}
+
+/* PARTICULES */
+.particle {
+  position:absolute;
+  width:6px;
+  height:6px;
+  background: rgba(231,127,163,0.5);
+  border-radius:50%;
+  animation:riseParticle linear infinite;
+  z-index:0;
+}
+@keyframes riseParticle {
+  0% { transform: translateY(0) scale(1); opacity:0;}
+  50% { opacity:0.7; }
+  100% { transform: translateY(-800px) scale(0.5); opacity:0;}
+}
+
+/* FOOTER */
+footer {
+  margin-top:auto;
+  font-size:1rem;
+  color:#8e488e;
+  padding:15px;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="form-container">
+  <h2>Connexion</h2>
+  <form id="loginForm">
+    <input type="text" id="username" placeholder="Nom d'utilisateur" required>
+    <input type="password" id="password" placeholder="Mot de passe" required>
+    <button type="submit">Se connecter</button>
+  </form>
+  <div class="message" id="message"></div>
+</div>
+
+<footer>
+  © 2026 SereniT - Tous droits réservés.
+</footer>
+
+<script>
+/* PARTICULES */
+for(let i=0;i<30;i++){
+  let p = document.createElement("div");
+  p.className="particle";
+  p.style.left = Math.random()*100+"%";
+  p.style.bottom = Math.random()*100+"px";
+  p.style.width = p.style.height = (Math.random()*6+3)+"px";
+  p.style.animationDuration = (Math.random()*5+5)+"s";
+  document.body.appendChild(p);
+}
+
+/* FORMULAIRE AVEC MESSAGE D'ERREUR */
+const form = document.getElementById("loginForm");
+const message = document.getElementById("message");
+
+// Exemple de comptes existants
+if(!localStorage.getItem("accounts")){
+  const accounts = [{username:"utilisateur1", password:"motdepasse"}];
+  localStorage.setItem("accounts", JSON.stringify(accounts));
+}
+
+form.addEventListener("submit", function(e){
+  e.preventDefault();
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+  const user = accounts.find(acc => acc.username === username);
+
+  if(!user){
+    message.textContent = "Ce nom d'utilisateur n'existe pas.";
+  } else if(user.password !== password){
+    message.textContent = "Mot de passe incorrect.";
+  } else {
+    message.style.color = "green";
+    message.textContent = "Connexion réussie !";
+    localStorage.setItem("currentUser", username);
+    setTimeout(()=>{ window.location.href = "siteee.html"; }, 1000);
+  }
+});
+</script>
+
+</body>
+</html>

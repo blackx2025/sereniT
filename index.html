@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SereniT</title>
+
+<style>
+/* ===== BODY ===== */
+body {
+  margin:0;
+  font-family: Georgia, serif;
+  overflow:hidden;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: linear-gradient(135deg, #f8d7e5, #fdf7fa, #fce4f0);
+  animation: backgroundShift 20s ease infinite;
+}
+
+/* ===== ANIMATION FOND ===== */
+@keyframes backgroundShift {
+  0% {background-position:0% 50%;}
+  50% {background-position:100% 50%;}
+  100% {background-position:0% 50%;}
+}
+
+/* ===== BARRE HAUT ===== */
+.topbar {
+  position:fixed;
+  top:0;
+  width:100%;
+  height:70px;
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(10px);
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  padding-right:30px;
+  border-bottom:1px solid rgba(231,127,163,0.3);
+  z-index:1000;
+}
+
+/* ===== MENU HAMBURGER ===== */
+.menu-btn {
+  width:35px;
+  cursor:pointer;
+  z-index:1001;
+}
+.menu-btn span {
+  display:block;
+  height:4px;
+  background:#d46489;
+  margin:6px 0;
+  border-radius:4px;
+}
+
+/* ===== MENU LATERAL ===== */
+.menu {
+  position:fixed;
+  top:0;
+  right:-300px;
+  width:300px;
+  height:100%;
+  background:white;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  transition:0.4s;
+  box-shadow:-10px 0 30px rgba(0,0,0,0.15);
+  z-index:2000;
+}
+.menu a {
+  text-decoration:none;
+  font-size:22px;
+  margin:25px;
+  color:#5a3e5f;
+}
+.menu a:hover {
+  color:#e77fa3;
+}
+.menu .close-btn {
+  position:absolute;
+  top:20px;
+  right:20px;
+  font-size:28px;
+  cursor:pointer;
+  color:#d46489;
+}
+
+/* ===== CENTRE ===== */
+.center {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  z-index:1;
+  position:relative;
+}
+
+/* ===== LOGO ===== */
+.logo {
+  width:230px;
+  border-radius:50%;
+  animation:float 6s ease-in-out infinite;
+  box-shadow: 0 0 20px rgba(231,127,163,0.4);
+}
+@keyframes float {
+  0% { transform: translateY(0) scale(1);}
+  50% { transform: translateY(-10px) scale(1.02);}
+  100% { transform: translateY(0) scale(1);}
+}
+
+/* ===== PARTICULES LUMINEUSES ===== */
+.particle {
+  position:absolute;
+  width:6px;
+  height:6px;
+  background: rgba(231,127,163,0.5);
+  border-radius:50%;
+  animation:riseParticle linear infinite;
+  z-index:0;
+}
+@keyframes riseParticle {
+  0% { transform: translateY(0) scale(1); opacity:0;}
+  50% { opacity:0.7; }
+  100% { transform: translateY(-800px) scale(0.5); opacity:0;}
+}
+
+/* ===== TEXTE DE BIENVENUE ===== */
+.welcome-text {
+  margin-top:30px;
+  font-size:22px;
+  color:#5a3e5f;
+  font-weight:bold;
+  text-align:center;
+  line-height:1.4;
+  opacity:0;
+  animation:fadeIn 2s forwards;
+  animation-delay:1s;
+}
+@keyframes fadeIn {
+  to { opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- BARRE HAUT -->
+<div class="topbar">
+  <div class="menu-btn" id="menuBtn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<!-- MENU LATERAL -->
+<div class="menu" id="menu">
+  <div class="close-btn" id="closeBtn">&times;</div>
+  <a href="connexion.html">Se connecter</a>
+  <a href="identification.html">S'inscrire</a>
+</div>
+
+<!-- CENTRE -->
+<div class="center">
+  <img src="SereniT.jpeg" class="logo" alt="Logo SereniT">
+  <div class="welcome-text" id="welcomeText">
+    Bienvenue dans SereniT<br>
+    Ton espace de sérénité et de détente
+  </div>
+</div>
+
+<script>
+/* MENU */
+const menuBtn = document.getElementById("menuBtn");
+const menu = document.getElementById("menu");
+const closeBtn = document.getElementById("closeBtn");
+
+menuBtn.onclick = () => { menu.style.right = "0"; }
+closeBtn.onclick = () => { menu.style.right = "-300px"; }
+
+/* PARTICULES LUMINEUSES */
+for(let i=0;i<30;i++){
+  let p = document.createElement("div");
+  p.className="particle";
+  p.style.left = Math.random()*100+"%";
+  p.style.bottom = Math.random()*100+"px";
+  p.style.width = p.style.height = (Math.random()*6+3)+"px";
+  p.style.animationDuration = (Math.random()*5+5)+"s";
+  document.body.appendChild(p);
+}
+</script>
+
+</body>
+</html>

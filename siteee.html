@@ -16,6 +16,7 @@ body {
     line-height: 1.8;
     text-align: center;
     overflow-x: hidden;
+    position: relative;
 }
 
 .container {
@@ -128,6 +129,30 @@ footer {
     font-size: 1rem;
     color: #8e488e;
 }
+
+/* Photo profil flottante */
+#profileAnchor {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #e77fa3;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s;
+    z-index: 1000;
+}
+#profileAnchor:hover {
+    transform: scale(1.1);
+}
+#profileAnchor img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
 </style>
 
 </head>
@@ -146,34 +171,55 @@ footer {
 </header>
 
 <section class="features">
-
     <div class="feature">
         <h2><a href="messagerie.html" class="btn">💬 Messagerie anonyme</a></h2>
         <p>Posez vos questions et recevez des conseils sans révéler votre identité.</p>
     </div>
-
     <div class="feature">
         <h2><a href="ressources.html" class="btn">📚 Espace de ressources</a></h2>
         <p>Explorez des articles et des exercices pour mieux gérer vos émotions et votre bien-être.</p>
     </div>
-
     <div class="feature">
         <h2><a href="forum.html" class="btn">🗣️ Forum communautaire</a></h2>
         <p>Partagez vos expériences et échangez avec d'autres filles dans un espace sécurisé.</p>
     </div>
-
     <div class="feature">
         <h2><a href="rendezvous.html" class="btn">📅 Prise de rendez-vous</a></h2>
         <p>Envie d'un suivi personnalisé ? Prenez rendez-vous avec un psychologue.</p>
     </div>
-
 </section>
 
 <footer>
-    © 2025 SereniT - Tous droits réservés.
+    © 2026 SereniT - Tous droits réservés.
 </footer>
 
 </div>
+
+<!-- Photo profil flottante -->
+<div id="profileAnchor" onclick="goToProfile()">
+  <img src="default-avatar.png" id="profileFloatPic" alt="Profil">
+</div>
+
+<script>
+let currentUser = localStorage.getItem("currentUser");
+let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+let user = accounts.find(u => u.username === currentUser);
+
+const profileFloatPic = document.getElementById("profileFloatPic");
+
+if(user){
+  profileFloatPic.src = user.profilePic || "default-avatar.png";
+}
+
+// Redirection vers profil
+function goToProfile(){
+  if(currentUser){
+    window.location.href = "profil.html";
+  } else {
+    alert("Veuillez vous connecter pour accéder au profil.");
+  }
+}
+</script>
 
 </body>
 </html>

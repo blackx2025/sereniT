@@ -53,7 +53,7 @@ document.getElementById('identificationForm').addEventListener('submit', functio
         localStorage.setItem('nom', name);
 
         
-        window.location.href = "siteee.html"; 
+        window.location.href = "modifier.html"; 
     } else {
         alert('Veuillez entrer un pseudonyme avant de continuer.');
     }

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modifier Profil - SereniT</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Lora&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'Lora', serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,#f8d7e5,#fdf7fa);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding-bottom:50px;
+}
+
+/* Carte edit */
+.edit-card{
+  background:rgba(255,255,255,0.95);
+  border-radius:25px;
+  padding:35px 30px;
+  width:90%;
+  max-width:420px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  box-shadow:0 12px 35px rgba(0,0,0,0.12);
+  margin:50px auto;
+  animation: fadeIn 1.2s ease forwards;
+}
+
+/* Photo profil */
+.profile-pic{
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  border:3px solid #e77fa3;
+  object-fit:cover;
+  margin-bottom:15px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.profile-pic:hover{
+  transform: scale(1.05);
+  box-shadow:0 0 20px rgba(231,127,163,0.5);
+}
+
+/* Boutons */
+button{
+  padding:12px 22px;
+  border-radius:25px;
+  border:none;
+  background:#e77fa3;
+  color:white;
+  cursor:pointer;
+  margin:12px 0;
+  width:95%;
+  font-size:1rem;
+  transition: all 0.3s;
+}
+button:hover{
+  background:#d46489;
+}
+#cancelBtn{
+  background:#ccc;
+  color:#333;
+}
+
+/* Username */
+.username-display{
+  margin:12px 0;
+  font-weight:bold;
+  font-size:1.3rem;
+  color:#5a3e5f;
+  text-align:center;
+  width:90%;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #e77fa3;
+  background:#fff;
+  transition: all 0.3s;
+}
+.username-display:hover{
+  border-color:#d46489;
+}
+.username-display.locked{
+  opacity:0.6;
+  cursor:not-allowed;
+}
+
+/* Info username */
+.username-info{
+  font-size:0.85rem;
+  color:#999;
+  margin-bottom:12px;
+  text-align:center;
+}
+
+/* Bio */
+textarea{
+  width:90%;
+  padding:14px;
+  margin:12px 0;
+  border-radius:12px;
+  border:1px solid #e77fa3;
+  font-size:1rem;
+  resize:none;
+  transition: border-color 0.3s;
+}
+textarea:focus{
+  border-color:#d46489;
+  outline:none;
+}
+
+/* Message */
+.message{
+  margin-top:5px;
+  height:18px;
+  font-size:14px;
+  text-align:center;
+  transition: opacity 0.3s;
+}
+
+/* Footer */
+footer{
+  margin-top:auto;
+  font-size:1rem;
+  color:#8e488e;
+  padding:20px;
+  text-align:center;
+}
+
+/* Animations */
+@keyframes fadeIn{
+  0%{opacity:0; transform:translateY(15px);}
+  100%{opacity:1; transform:translateY(0);}
+}
+
+/* Responsive */
+@media (max-width:768px){
+  .edit-card{padding:30px 20px;width:95%;}
+  .profile-pic{width:120px;height:120px;}
+  .username-display{font-size:1.1rem;}
+}
+@media (max-width:480px){
+  .edit-card{padding:25px;}
+  .profile-pic{width:100px;height:100px;}
+  .username-display{font-size:1rem;}
+  button{font-size:0.9rem;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="edit-card">
+
+  <img src="default-avatar.png" class="profile-pic" id="profilePic">
+
+  <button id="changePhotoBtn">Changer photo</button>
+
+  <div id="usernameDisplay" class="username-display"></div>
+  <div id="usernameInfo" class="username-info"></div>
+
+  <textarea id="bioInput" placeholder="Écris ta bio ici..."></textarea>
+
+  <button id="saveBtn">Enregistrer</button>
+  <button id="cancelBtn">Annuler</button>
+
+  <div id="editMessage" class="message"></div>
+
+</div>
+
+<footer>© 2026 SereniT - Tous droits réservés.</footer>
+
+<script>
+let currentUser = localStorage.getItem("currentUser");
+let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+let user = accounts.find(u => u.username === currentUser);
+
+const profilePic = document.getElementById("profilePic");
+const usernameDisplay = document.getElementById("usernameDisplay");
+const usernameInfo = document.getElementById("usernameInfo");
+const bioInput = document.getElementById("bioInput");
+const changePhotoBtn = document.getElementById("changePhotoBtn");
+const saveBtn = document.getElementById("saveBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+const editMessage = document.getElementById("editMessage");
+
+if(!user){
+  alert("Session expirée. Veuillez vous reconnecter.");
+  window.location.href="identification.html";
+}
+
+// Affichage initial
+profilePic.src = user.profilePic || "default-avatar.png";
+usernameDisplay.textContent = user.username;
+bioInput.value = user.bio || "";
+
+const creationDate = new Date(user.creationDate || Date.now());
+const now = new Date();
+const diffMonths = (now.getFullYear()-creationDate.getFullYear())*12 + (now.getMonth()-creationDate.getMonth());
+
+if(diffMonths < 1){
+  usernameDisplay.classList.add("locked");
+  usernameDisplay.contentEditable = false;
+  usernameInfo.textContent = "Username verrouillé pendant 1 mois après création";
+} else {
+  usernameDisplay.contentEditable = true;
+  usernameInfo.textContent = "Clique pour modifier le username";
+}
+
+// Modifier username
+usernameDisplay.onclick = () => {
+  if(diffMonths < 1){
+    editMessage.style.color="red";
+    editMessage.textContent="Vous devez attendre 1 mois";
+    setTimeout(()=>{editMessage.textContent=""},2500);
+  }
+}
+
+// Changer photo
+changePhotoBtn.onclick = () => {
+  const input=document.createElement("input");
+  input.type="file";
+  input.accept="image/*";
+  input.onchange=function(){
+    const file=this.files[0];
+    if(file){
+      const reader=new FileReader();
+      reader.onload=function(e){
+        profilePic.src=e.target.result;
+        user.profilePic=e.target.result;
+      }
+      reader.readAsDataURL(file);
+    }
+  }
+  input.click();
+}
+
+// Enregistrer
+saveBtn.onclick = () => {
+  let newUsername=usernameDisplay.textContent.trim();
+  if(diffMonths>=1){
+    if(accounts.some(u=>u.username===newUsername && u!==user)){
+      editMessage.style.color="red";
+      editMessage.textContent="Username déjà utilisé";
+      return;
+    }
+    if(newUsername){
+      user.username=newUsername;
+      localStorage.setItem("currentUser",newUsername);
+    }
+  }
+  user.bio=bioInput.value.trim();
+  let index=accounts.findIndex(u=>u.username===currentUser);
+  accounts[index]=user;
+  localStorage.setItem("accounts",JSON.stringify(accounts));
+  localStorage.setItem("profilePicForSite",user.profilePic || "default-avatar.png");
+  window.location.href="profil.html";
+}
+
+// Annuler
+cancelBtn.onclick = () => {
+  window.location.href="identification.html";
+}
+</script>
+
+</body>
+</html>

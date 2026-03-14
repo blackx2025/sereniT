@@ -2,16 +2,24 @@
 <html lang="fr">
 
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bienvenue sur SereniT</title>
 
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Lora&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
 <style>
+/* ----------------- Body et Fond ----------------- */
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Georgia', serif;
+    font-family: 'Lora', serif;
     background: linear-gradient(to bottom, #f8d7e5, #fdf7fa);
+    background-image: url('pattern-butterfly.png'); /* léger motif papillons */
+    background-repeat: no-repeat;
+    background-position: top right;
+    background-size: 180px;
     color: #5a3e5f;
     line-height: 1.8;
     text-align: center;
@@ -19,37 +27,37 @@ body {
     position: relative;
 }
 
+/* ----------------- Container ----------------- */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
 
+/* ----------------- Header et Logo ----------------- */
 header {
     padding: 40px 20px;
+    position: relative;
 }
 
 h1 {
     font-size: 3.5rem;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     font-family: 'Playfair Display', serif;
     color: #8e488e;
+    text-shadow: 1px 1px 5px rgba(231,127,163,0.4);
 }
 
-p {
-    font-size: 1.3rem;
-}
-
-/* Logo avec cercle et animation */
 .logo-container {
     position: relative;
     display: inline-block;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
     border: 3px solid #e77fa3;
     border-radius: 50%;
     padding: 30px;
     box-shadow: 0 10px 30px rgba(231, 127, 163, 0.3);
     animation: float 4s ease-in-out infinite;
+    overflow: visible;
 }
 
 .logo {
@@ -59,49 +67,51 @@ p {
     object-fit: cover;
 }
 
-@keyframes float {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0); }
-}
-
-/* Étoiles décoratives */
-.star {
+/* Papillons animés autour du logo */
+.butterfly {
     position: absolute;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #f06292;
     animation: flutter 6s ease-in-out infinite;
 }
+.butterfly-1 { top: -30px; left: -40px; animation-delay: 0.3s; }
+.butterfly-2 { top: 10px; right: -50px; animation-delay: 1s; }
+.butterfly-3 { bottom: -30px; left: 30px; animation-delay: 1.5s; }
 
-.star-1 { top: -40px; left: -20px; animation-delay: 0.5s; }
-.star-2 { top: 20px; right: -50px; animation-delay: 1s; }
-.star-3 { bottom: -40px; left: 40px; animation-delay: 1.5s; }
-
-@keyframes flutter {
-    0% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-10px) rotate(10deg); }
-    100% { transform: translateY(0) rotate(0deg); }
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(0); }
 }
 
-/* Boutons */
+@keyframes flutter {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+    25% { transform: translateY(-8px) rotate(10deg); opacity: 1; }
+    50% { transform: translateY(0px) rotate(-10deg); opacity: 0.7; }
+    75% { transform: translateY(-5px) rotate(5deg); opacity: 1; }
+    100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+}
+
+/* ----------------- Boutons ----------------- */
 .btn {
     display: inline-block;
-    padding: 15px 40px;
+    padding: 15px 45px;
     margin: 20px 10px;
     text-decoration: none;
     color: #fff;
-    background: #e77fa3;
+    background: linear-gradient(135deg, #f5a3c0, #e77fa3);
     border-radius: 30px;
     font-size: 1.2rem;
-    transition: background 0.3s, transform 0.2s;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0 4px 15px rgba(231,127,163,0.4);
 }
-
 .btn:hover {
-    background: #d46489;
+    background: linear-gradient(135deg, #e77fa3, #d46489);
     transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(231,127,163,0.6);
 }
 
-/* Cartes de fonctionnalités */
+/* ----------------- Cartes de fonctionnalités ----------------- */
 .features {
     display: flex;
     flex-wrap: wrap;
@@ -111,26 +121,36 @@ p {
 }
 
 .feature {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(12px);
     padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 25px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     max-width: 350px;
-    transition: transform 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
-
 .feature:hover {
     transform: translateY(-10px);
+    box-shadow: 0 12px 30px rgba(231,127,163,0.4);
+}
+.feature h2 {
+    font-family: 'Playfair Display', serif;
+    color: #8e488e;
+    margin-bottom: 10px;
+}
+.feature p {
+    color: #5a3e5f;
 }
 
-/* Pied de page */
+/* ----------------- Pied de page ----------------- */
 footer {
     margin-top: 50px;
     font-size: 1rem;
     color: #8e488e;
+    text-shadow: 0 1px 2px rgba(231,127,163,0.3);
 }
 
-/* Photo profil flottante */
+/* ----------------- Photo profil flottante ----------------- */
 #profileAnchor {
     position: fixed;
     bottom: 15px;
@@ -141,11 +161,12 @@ footer {
     border: 2px solid #e77fa3;
     overflow: hidden;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.3s;
     z-index: 1000;
 }
 #profileAnchor:hover {
     transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(231,127,163,0.6);
 }
 #profileAnchor img {
     width: 100%;
@@ -164,10 +185,12 @@ footer {
 <header>
     <div class="logo-container">
         <img src="SereniT.jpeg" alt="Logo SereniT" class="logo">
-        <span class="star star-1">★</span>
-        <span class="star star-2">★</span>
-        <span class="star star-3">★</span>
+        <span class="butterfly butterfly-1">🦋</span>
+        <span class="butterfly butterfly-2">🦋</span>
+        <span class="butterfly butterfly-3">🦋</span>
     </div>
+    <h1>Bienvenue sur SereniT</h1>
+    <p>Votre espace sécurisé pour exprimer, apprendre et partager en toute sérénité.</p>
 </header>
 
 <section class="features">
